@@ -1,0 +1,14 @@
+name: shimcache_flush
+description: |
+  Detects attempts to flush Shimcache, which may indicate anti-forensic activity. Adversaries use this to erase evidence of executed files and hinder post-compromise analysis.
+  Ref: https://blueteamops.medium.com/shimcache-flush-89daff28d15e
+author: VaasudevKala
+tactics:
+- Defense evasion
+techniques:
+  - T1112
+query: |
+  DeviceProcessEvents
+  | where FileName has "Rundll32.exe"
+  | where ((ProcessCommandLine has_any("ShimFlushCache","BaseFlushAppcompatCache"))
+  or (ProcessCommandLine has_any (@"#250",@"#46") and ProcessCommandLine has_any ("apphelp.dll","kernel32.dll"))) // checking for ordinals as well
