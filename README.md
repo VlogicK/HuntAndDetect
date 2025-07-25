@@ -1,6 +1,6 @@
 KQL Detection Repository
 
-This repository contains curated Kusto Query Language (KQL) detections and hunting queries built to identify malicious or suspicious behavior across various Microsoft security products such as:
+This repository contains curated KQL detections and hunting queries built to identify malicious or suspicious behavior across various Microsoft security products such as:
 
 - Microsoft 365 Defender (MDE, MDI, MDO, etc.)
 - Microsoft Sentinel
