@@ -1,0 +1,79 @@
+Tool Name,Executable Name(s),Process Name(s),Common Installation Path,Common Domains Contacted
+TeamViewer,TeamViewer.exe,TeamViewer,C:\Program Files\TeamViewer,teamviewer.com
+AnyDesk,AnyDesk.exe,AnyDesk,C:\Program Files (x86)\AnyDesk,anydesk.com
+ConnectWise Control (ScreenConnect),ScreenConnect.Client.exe,ScreenConnect.Client,C:\Program Files (x86)\ScreenConnect Client,screenconnect.com
+LogMeIn,LogMeIn.exe,LogMeIn,C:\Program Files (x86)\LogMeIn,logmein.com
+Splashtop,SplashtopRemoteService.exe; SRManager.exe,SplashtopRemoteService; SRManager,C:\Program Files (x86)\Splashtop\Splashtop Remote,splashtop.com
+GoToMyPC,g2comm.exe; g2tray.exe,g2comm; g2tray,C:\Program Files (x86)\GoToMyPC,gotomypc.com
+UltraVNC,winvnc.exe,winvnc,C:\Program Files\UltraVNC,uvnc.com
+DameWare,DWRCS.exe; DWRCSMS.exe,DWRCS; DWRCSMS,C:\Program Files\SolarWinds\DameWare Mini Remote Control,solarwinds.com
+Remote Utilities,rfusclient.exe; rutserv.exe,rfusclient; rutserv,C:\Program Files\Remote Utilities - Host,remoteutilities.com
+Zoho Assist,ZohoAssistService.exe,ZohoAssistService,C:\Program Files (x86)\ZohoMeeting,zoho.com
+Kaseya Agent,AgentMon.exe; KaUsrTsk.exe,AgentMon; KaUsrTsk,C:\Program Files (x86)\Kaseya,kaseya.net
+Atera Agent,AteraAgent.exe,AteraAgent,C:\Program Files\Atera Networks\AteraAgent,atera.com
+Pulseway,pulsewayagent.exe,pulsewayagent,C:\Program Files\Pulseway,pulseway.com
+NinjaOne (NinjaRMM),NinjaRMMAgent.exe,NinjaRMMAgent,C:\Program Files (x86)\NinjaRMMAgent,ninjarmm.com
+SolarWinds N-central,ncentralagent.exe,ncentralagent,C:\Program Files (x86)\SolarWinds\N-central Agent,n-able.com
+Barracuda RMM (Managed Workplace),MWAgent.exe,MWAgent,C:\Program Files (x86)\Level Platforms,barracuda.com
+ITarian (Comodo RMM),ITSMService.exe,ITSMService,C:\Program Files\ITarian\RMM,itarian.com
+MSP360,CloudBerryRemoteAssistant.exe,CloudBerryRemoteAssistant,C:\Program Files\MSP360\Remote Assistant,msp360.com
+Domotz,DomotzAgent.exe,DomotzAgent,C:\Program Files (x86)\Domotz,domotz.com
+Parallels RAS,rasagent.exe,rasagent,C:\Program Files (x86)\Parallels\RASAgent,parallels.com
+NetSupport Manager,client32.exe; pciclient.exe,client32; pciclient,C:\Program Files (x86)\NetSupport\NetSupport Manager,netsupportsoftware.com
+VNC Connect (RealVNC),vncserver.exe; vncviewer.exe,vncserver; vncviewer,C:\Program Files\RealVNC\VNC Server,realvnc.com
+TightVNC,tvnserver.exe; tvnviewer.exe,tvnserver; tvnviewer,C:\Program Files\TightVNC,tightvnc.com
+Ammyy Admin,AA_v3.exe,AA_v3,C:\Program Files (x86)\Ammyy Admin,ammyy.com
+RemotePC,rpclient.exe,rpclient,C:\Program Files\RemotePC,remotepc.com
+DWService,dwagent.exe,dwagent,C:\Program Files\DWService,dwservice.net
+ISL Light,isl_light_client.exe,isl_light_client,C:\Program Files (x86)\ISL Online\ISL Light,islonline.com
+RemoteDesktopManager,RemoteDesktopManager.exe,RemoteDesktopManager,C:\Program Files (x86)\Devolutions\Remote Desktop Manager,devolutions.net
+BeyondTrust (Bomgar),Bomgar-scc.exe; bomgar-rep.exe,Bomgar-scc; bomgar-rep,C:\Program Files (x86)\Bomgar,bomgar.com
+AweSun,AweSun.exe,AweSun,C:\Program Files (x86)\AweRay\AweSun,aweray.com
+TSplus,wtserver.exe,wtserver,C:\Program Files (x86)\TSplus,tsplus.net
+Action1,Action1Agent.exe,Action1Agent,C:\Program Files\Action1,action1.com
+Addigy,,,C:\Program Files\Addigy,addigy.com
+AeroAdmin,AeroAdmin.exe,AeroAdmin,C:\Program Files (x86)\AeroAdmin,aeroadmin.com
+Alpemix,Alpemix.exe,Alpemix,C:\Program Files (x86)\Alpemix,alpemix.com
+Anyplace Control,apc_admin.exe,apc_admin,C:\Program Files (x86)\Anyplace Control,anyplace-control.com
+AnyViewer,AnyViewer.exe,AnyViewer,C:\Program Files\AnyViewer,anyviewer.com
+Auvik,,,C:\Program Files\Auvik,auvik.com
+BeamYourScreen,BYS.exe,BYS,C:\Program Files (x86)\BeamYourScreen,beamyourscreen.com
+BeAnywhere,BASupSrvc.exe,BASupSrvc,C:\Program Files (x86)\BeAnywhere,beanywhere.com
+BlueTrait.io,,,C:\Program Files\BlueTrait,bluetrait.io
+Chrome Remote Desktop,remoting_host.exe,remoting_host,C:\Program Files (x86)\Google\Chrome Remote Desktop,remotedesktop.google.com
+CrossLoop,CrossLoopConnect.exe,CrossLoopConnect,C:\Program Files (x86)\CrossLoop,crossloop.com
+CrossTec,CrossTecRemote.exe,CrossTecRemote,C:\Program Files\CrossTec,crosstecsoftware.com
+Datto RMM,CagService.exe,CagService,C:\Program Files (x86)\CentraStage,dattobackup.com
+DeskDay,,,C:\Program Files\DeskDay,deskday.com
+DesktopNow,DesktopNow.exe,DesktopNow,C:\Program Files (x86)\NCH Software\DesktopNow,nchsoftware.com
+Distant Desktop,DistantDesktop.exe,DistantDesktop,C:\Program Files\Distant Desktop,distantdesktop.com
+EHorus,ehorusclientctl.exe,ehorusclientctl,C:\Program Files\ehorus,ehorus.com
+ElectricAI,,,C:\Program Files\ElectricAI,electric.ai
+FleetDeck,,,C:\Program Files\FleetDeck,fleetdeck.io
+GetScreen,,,C:\Program Files\GetScreen,getscreen.me
+Iperius Remote,IperiusRemote.exe,IperiusRemote,C:\Program Files (x86)\Iperius Remote,iperiusremote.com
+JumpCloud,JumpCloud.exe,JumpCloud,C:\Program Files\JumpCloud,jumpcloud.com
+LiteManager,server.exe,server,C:\Program Files\LiteManager,litemanager.com
+MeshCentral,MeshAgent.exe,MeshAgent,C:\Program Files\Mesh Agent,meshcentral.com
+mRemoteNG,mRemoteNG.exe,mRemoteNG,C:\Program Files (x86)\mRemoteNG,mremoteng.org
+Naverisk,naveriskagent.exe,naveriskagent,C:\Program Files\Naverisk,naverisk.com
+OptiTune,OptiTuneAgent.exe,OptiTuneAgent,C:\Program Files\OptiTune,optitune.com
+Panorama9,Panorama9.exe,Panorama9,C:\Program Files (x86)\Panorama9,panorama9.com
+Parsec,parsecd.exe,parsecd,C:\Program Files\Parsec,parsec.app
+PCVisit,pcvisit_*.exe,pcvisit,C:\Program Files (x86)\PCVisit,pcvisit.com
+PDQ Inventory,PDQInventory.exe,PDQInventory,C:\Program Files (x86)\Admin Arsenal\PDQ Inventory,pdq.com
+Radmin,rserver3.exe,rserver3,C:\Program Files (x86)\Radmin Server 3,radmin.com
+RPort,,,C:\Program Files\RPort,rport.io
+RustDesk,rustdesk.exe,rustdesk,C:\Program Files\RustDesk,rustdesk.com
+ScreenMeet,,,C:\Program Files\ScreenMeet,screenmeet.com
+ServerEye,,,C:\Program Files\ServerEye,servereye.de
+ShowMyPC,wShowMyPC.exe,wShowMyPC,C:\Program Files\ShowMyPC,showmypc.com
+SimpleHelp,simplehelp.exe,simplehelp,C:\Program Files\SimpleHelp,simple-help.com
+SupRemo,Supremo.exe,Supremo,C:\Program Files\SupRemo,supremocontrol.com
+SyncroMSP,Syncro.exe,Syncro,C:\Program Files\Syncro,syncromsp.com
+Syspectr,SyspectrAgent.exe,SyspectrAgent,C:\Program Files\O&O\Syspectr Agent,syspectr.com
+TacticalRMM,TacticalAgent.exe,TacticalAgent,C:\Program Files\TacticalRMM,tacticalrmm.com
+TechInline,techinline.exe,techinline,C:\Program Files (x86)\TechInline,techinline.net
+TigerVNC,winvnc4.exe,winvnc4,C:\Program Files\TigerVNC,tigervnc.org
+UltraViewer,UltraViewer.exe,UltraViewer,C:\Program Files (x86)\UltraViewer,ultraviewer.net
+XMReality,,,C:\Program Files\XMReality,xmreality.com
