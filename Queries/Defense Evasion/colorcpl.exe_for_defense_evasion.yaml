@@ -1,0 +1,16 @@
+name: colorcpl.exe_for_defense_evasion
+description: |
+  Guildma malware (also known as Astaroth), has been observed abusing the legitimate Windows colorcpl.exe tool in a cunning way. According to SANS ISC, the malware first uses colorcpl.exe to silently copy bitsadmin.exe into the writable C:\Windows\System32\spool\drivers\color\ directory, 
+  avoiding the typical copy command that security tools might detect. Once relocated, Guildma executes this copy of bitsadmin.exe from the less-scrutinized path to download additional payloads, 
+  effectively sidestepping traditional detection mechanisms that monitor only the original binary location.
+  Ref: https://lolbas-project.github.io/lolbas/Binaries/Colorcpl/
+       https://isc.sans.edu/diary/29814
+author: VaasudevKala
+tactics:
+- Defense Evasion
+techniques:
+  - T1036  # Masquerading
+query: |
+  DeviceProcessEvents
+  | where FileName =~ "colorcpl.exe"
+  | where ProcessCommandLine has "bitsadmin.exe"
