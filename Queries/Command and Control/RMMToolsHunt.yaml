@@ -1,0 +1,24 @@
+name: RMMTools_Hunting
+description: |
+  Detects usage of known Remote Monitoring and Management (RMM) tool executables or network connections to known RMM domains. These tools are commonly used in legitimate IT operations but are also frequently abused by threat actors for remote access and persistence in enterprise environments.\  This query uses a custom external CSV containing a list of RMM executables and network domains.
+  This query uses a custom external CSV containing a list of RMM executables and network domains.
+author: VaasudevKala
+tactics:
+- Command and Control
+- Defense Evasion
+techniques:
+  - T1219  # Remote Access Software
+  - T1105  # Ingress Tool Transfer
+query: |
+  let RMMIOCs=externaldata (ToolName:string,
+    ExecutableName:string,
+    ProcessName:string,
+    Domain:string)["https://raw.githubusercontent.com/VlogicK/HuntAndDetect/refs/heads/main/Queries/Command%20and%20Control/Enhanced_RMM_Tools_List_With_Domains.csv"]
+    with (format="csv", ignoreFirstRecord=true);
+  let RMMProcNames=RMMIOCs
+  |distinct ProcessName;
+  let RMMDomains=RMMIOCs|distinct Domain;
+  let procesEventsQuery=DeviceProcessEvents
+  | where FileName has_any (RMMProcNames)| extend eventtype="ProcessEvent";
+  let networkEventsQuery=DeviceNetworkEvents| where RemoteUrl has_any (RMMDomains)| extend eventtype="NetworkEvent";
+  union procesEventsQuery,networkEventsQuery
