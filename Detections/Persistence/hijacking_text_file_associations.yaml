@@ -1,14 +1,44 @@
-name: hijacking_text_file_associations
+id: ca433e75-e313-59f7-899b-64e12a93f8eb
+
+displayName: Hijacking Text File Associations
+
 description: |
-  Detects registry modification events that change .txt files default handler to potentially establish persistence.
+  Detects registry modification events that change the default handler for .txt
+  files, potentially establishing persistence.
   Ref: https://hunt.io/blog/tinyloader-malware-cryptocurrency-theft-infrastructure
+
+kind: Scheduled
+severity: Medium
+enabled: true
+
 author: VaasudevKala
-tactics:
-- Persistence
-techniques:
-  - T1112
+
 query: |
   DeviceRegistryEvents
-  | where ActionType =="RegistryValueSet"
+  | where ActionType == "RegistryValueSet"
   | where ((RegistryKey has_any (@"\txtfile\shell\open\command",@"\FileExts\.txt\UserChoice") or RegistryKey endswith @"\.txt"))
   | where RegistryValueData !has "notepad.exe" // add notepad++.exe if used within the organisation
+
+queryFrequency: PT5H
+queryPeriod: PT5H
+triggerOperator: GreaterThan
+triggerThreshold: 0
+
+suppressionDuration: PT5H
+suppressionEnabled: false
+
+tactics:
+  - Persistence
+
+techniques:
+  - T1112
+
+subTechniques: []
+
+incidentConfiguration:
+  createIncident: true
+
+eventGroupingSettings:
+  aggregationKind: AlertPerResult
+
+entityMappings: []
