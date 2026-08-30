@@ -8,7 +8,7 @@ description: |
   Ref: https://hunt.io/blog/tinyloader-malware-cryptocurrency-theft-infrastructure
 
 kind: Scheduled
-severity: Medium
+severity: SuperCritical
 enabled: true
 
 author: VaasudevKala
