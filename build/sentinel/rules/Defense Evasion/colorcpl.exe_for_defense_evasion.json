@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {},
+  "resources": [
+    {
+      "type": "Microsoft.SecurityInsights/alertRules",
+      "apiVersion": "2025-09-01",
+      "name": "84535502-de95-5003-94c2-fb5d29aa25f1",
+      "kind": "Scheduled",
+      "properties": {
+        "displayName": "Colorcpl Abuse for Defense Evasion",
+        "description": "Detects use of the legitimate Windows colorcpl.exe utility with bitsadmin.exe.\nGuildma (Astaroth) malware has been observed abusing colorcpl.exe to copy\nbitsadmin.exe into a less-scrutinized directory before using it to retrieve\nadditional payloads.\nRef: https://lolbas-project.github.io/lolbas/Binaries/Colorcpl/\n     https://isc.sans.edu/diary/29814\n",
+        "severity": "Medium",
+        "enabled": true,
+        "query": "DeviceProcessEvents\n| where FileName =~ \"colorcpl.exe\"\n| where ProcessCommandLine has \"bitsadmin.exe\"\n",
+        "queryFrequency": "PT1H",
+        "queryPeriod": "PT1H",
+        "triggerOperator": "GreaterThan",
+        "triggerThreshold": 0,
+        "suppressionDuration": "PT5H",
+        "suppressionEnabled": false,
+        "tactics": [
+          "DefenseEvasion"
+        ],
+        "techniques": [
+          "T1036"
+        ],
+        "incidentConfiguration": {
+          "createIncident": true
+        },
+        "eventGroupingSettings": {
+          "aggregationKind": "AlertPerResult"
+        },
+        "entityMappings": []
+      }
+    }
+  ]
+}

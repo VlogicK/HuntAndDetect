@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {},
+  "resources": [
+    {
+      "type": "Microsoft.SecurityInsights/alertRules",
+      "apiVersion": "2025-09-01",
+      "name": "ca433e75-e313-59f7-899b-64e12a93f8eb",
+      "kind": "Scheduled",
+      "properties": {
+        "displayName": "Hijacking Text File Associations",
+        "description": "Detects registry modification events that change the default handler for .txt\nfiles, potentially establishing persistence.\nRef: https://hunt.io/blog/tinyloader-malware-cryptocurrency-theft-infrastructure\n",
+        "severity": "Medium",
+        "enabled": true,
+        "query": "DeviceRegistryEvents\n| where ActionType == \"RegistryValueSet\"\n| where ((RegistryKey has_any (@\"\\txtfile\\shell\\open\\command\",@\"\\FileExts\\.txt\\UserChoice\") or RegistryKey endswith @\"\\.txt\"))\n| where RegistryValueData !has \"notepad.exe\" // add notepad++.exe if used within the organisation\n",
+        "queryFrequency": "PT5H",
+        "queryPeriod": "PT5H",
+        "triggerOperator": "GreaterThan",
+        "triggerThreshold": 0,
+        "suppressionDuration": "PT5H",
+        "suppressionEnabled": false,
+        "tactics": [
+          "Persistence"
+        ],
+        "techniques": [
+          "T1112"
+        ],
+        "incidentConfiguration": {
+          "createIncident": true
+        },
+        "eventGroupingSettings": {
+          "aggregationKind": "AlertPerResult"
+        },
+        "entityMappings": []
+      }
+    }
+  ]
+}
