@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {},
+  "resources": [
+    {
+      "type": "Microsoft.SecurityInsights/alertRules",
+      "apiVersion": "2025-09-01",
+      "name": "082c4eef-9ad3-5cb6-8968-2a330384a581",
+      "kind": "Scheduled",
+      "properties": {
+        "displayName": "Shimcache Flush Activity",
+        "description": "Detects attempts to flush Shimcache, which may indicate anti-forensic activity.\nAdversaries may use this technique to erase evidence of executed files and\nhinder post-compromise analysis.\nRef: https://blueteamops.medium.com/shimcache-flush-89daff28d15e\n",
+        "severity": "Medium",
+        "enabled": true,
+        "query": "DeviceProcessEvents\n| where FileName has \"Rundll32.exe\"\n| where ((ProcessCommandLine has_any(\"ShimFlushCache\",\"BaseFlushAppcompatCache\"))\n    or (ProcessCommandLine has_any (@\"#250\",@\"#46\") and ProcessCommandLine has_any (\"apphelp.dll\",\"kernel32.dll\"))) // checking for ordinals as well\n",
+        "queryFrequency": "PT1H",
+        "queryPeriod": "PT1H",
+        "triggerOperator": "GreaterThan",
+        "triggerThreshold": 0,
+        "suppressionDuration": "PT5H",
+        "suppressionEnabled": false,
+        "tactics": [
+          "DefenseEvasion"
+        ],
+        "techniques": [
+          "T1112"
+        ],
+        "incidentConfiguration": {
+          "createIncident": true
+        },
+        "eventGroupingSettings": {
+          "aggregationKind": "AlertPerResult"
+        },
+        "entityMappings": []
+      }
+    }
+  ]
+}

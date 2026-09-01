@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {},
+  "resources": [
+    {
+      "type": "Microsoft.SecurityInsights/alertRules",
+      "apiVersion": "2025-09-01",
+      "name": "70c70e2c-aba2-525c-9a9e-ee2820a475cf",
+      "kind": "Scheduled",
+      "properties": {
+        "displayName": "RMM Tools Hunting",
+        "description": "Detects usage of known Remote Monitoring and Management (RMM) tool executables\nor network connections to known RMM domains. These tools are commonly used in\nlegitimate IT operations but are also frequently abused by threat actors for\nremote access and persistence in enterprise environments.\n",
+        "severity": "Medium",
+        "enabled": true,
+        "query": "let RMMIOCs=externaldata (ToolName:string,\n  ExecutableName:string,\n  ProcessName:string,\n  Domain:string)[\"https://raw.githubusercontent.com/VlogicK/HuntAndDetect/main/Detections/Command%20and%20Control/Enhanced_RMM_Tools_List_With_Domains.csv\"]\n  with (format=\"csv\", ignoreFirstRecord=true);\nlet RMMProcNames=RMMIOCs\n| distinct ProcessName;\nlet RMMDomains=RMMIOCs\n| distinct Domain;\nlet procesEventsQuery=DeviceProcessEvents\n| where FileName has_any (RMMProcNames)\n| extend eventtype=\"ProcessEvent\";\nlet networkEventsQuery=DeviceNetworkEvents\n| where RemoteUrl has_any (RMMDomains)\n| extend eventtype=\"NetworkEvent\";\nunion procesEventsQuery, networkEventsQuery\n",
+        "queryFrequency": "PT1H",
+        "queryPeriod": "PT1H",
+        "triggerOperator": "GreaterThan",
+        "triggerThreshold": 0,
+        "suppressionDuration": "PT5H",
+        "suppressionEnabled": false,
+        "tactics": [
+          "CommandAndControl",
+          "DefenseEvasion"
+        ],
+        "techniques": [
+          "T1219",
+          "T1105"
+        ],
+        "incidentConfiguration": {
+          "createIncident": true
+        },
+        "eventGroupingSettings": {
+          "aggregationKind": "AlertPerResult"
+        },
+        "entityMappings": []
+      }
+    }
+  ]
+}
