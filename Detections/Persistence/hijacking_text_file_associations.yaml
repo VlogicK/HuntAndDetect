@@ -18,7 +18,7 @@ query: |
   | where ActionType == "RegistryValueSet"
   | where ((RegistryKey has_any (@"\txtfile\shell\open\command",@"\FileExts\.txt\UserChoice") or RegistryKey endswith @"\.txt"))
   | where RegistryValueData !has "notepad.exe" // add notepad++.exe if used within the organisation
-
+ 
 queryFrequency: PT5H
 queryPeriod: PT5H
 triggerOperator: GreaterThan
