@@ -57,7 +57,31 @@ def test_build_properties_maps_detection_fields():
     assert properties["queryPeriod"] == "PT1H"
     assert properties["tactics"] == ["Execution"]
     assert properties["techniques"] == ["T1059"]
-    assert properties["entityMappings"] == []
+
+
+def test_empty_entity_mappings_are_omitted():
+    properties = converter.build_properties(valid_rule())
+
+    assert "entityMappings" not in properties
+
+
+def test_non_empty_entity_mappings_are_preserved():
+    rule = valid_rule()
+    rule["entityMappings"] = [
+        {
+            "entityType": "Host",
+            "fieldMappings": [
+                {
+                    "identifier": "HostName",
+                    "columnName": "DeviceName",
+                }
+            ],
+        }
+    ]
+
+    properties = converter.build_properties(rule)
+
+    assert properties["entityMappings"] == rule["entityMappings"]
 
 
 def test_repo_only_metadata_is_not_emitted_to_sentinel_properties():
