@@ -1,5 +1,6 @@
 import argparse
 import json
+import shutil
 import subprocess
 import sys
 import urllib.error
@@ -12,11 +13,24 @@ API_VERSION = "2025-09-01"
 MANAGEMENT_SCOPE = "https://management.azure.com/"
 
 
+def find_azure_cli() -> str:
+    """Find the Azure CLI executable across Windows and Unix-like systems."""
+
+    executable = shutil.which("az") or shutil.which("az.cmd")
+
+    if not executable:
+        raise RuntimeError(
+            "Azure CLI is not installed or is not available on PATH"
+        )
+
+    return executable
+
+
 def get_access_token() -> str:
     """Get an Azure management token from the current Azure CLI login."""
 
     command = [
-        "az",
+        find_azure_cli(),
         "account",
         "get-access-token",
         "--resource",
@@ -34,10 +48,6 @@ def get_access_token() -> str:
             capture_output=True,
             text=True,
         )
-    except FileNotFoundError as error:
-        raise RuntimeError(
-            "Azure CLI is not installed or is not available on PATH"
-        ) from error
     except subprocess.CalledProcessError as error:
         message = error.stderr.strip() or error.stdout.strip()
         raise RuntimeError(
@@ -171,7 +181,7 @@ def print_dry_run(
     body = build_request_body(resource)
 
     print("DRY RUN - no changes will be made")
-    print(f"Method: PUT")
+    print("Method: PUT")
     print(f"URL: {url}")
     print("Body:")
     print(json.dumps(body, indent=2))
