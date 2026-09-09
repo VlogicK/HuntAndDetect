@@ -45,3 +45,6 @@ jobs:
 
       - name: Validate detection YAML
         run: python tools/validate.py
+
+      - name: Build Sentinel rule artifacts
+        run: python tools/convert.py
