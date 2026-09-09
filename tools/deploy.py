@@ -107,6 +107,15 @@ def build_rule_url(
     )
 
 
+def build_request_body(resource: dict) -> dict:
+    """Build the Sentinel REST request body from a generated resource."""
+
+    return {
+        "kind": resource["kind"],
+        "properties": resource["properties"],
+    }
+
+
 def deploy_rule(
     resource: dict,
     subscription_id: str,
@@ -116,18 +125,13 @@ def deploy_rule(
 ) -> dict:
     """Create or update one Microsoft Sentinel analytics rule."""
 
-    rule_id = resource["name"]
     url = build_rule_url(
         subscription_id,
         resource_group,
         workspace,
-        rule_id,
+        resource["name"],
     )
-
-    body = {
-        "kind": resource["kind"],
-        "properties": resource["properties"],
-    }
+    body = build_request_body(resource)
 
     request = urllib.request.Request(
         url,
@@ -150,14 +154,45 @@ def deploy_rule(
         ) from error
 
 
+def print_dry_run(
+    resource: dict,
+    subscription_id: str,
+    resource_group: str,
+    workspace: str,
+) -> None:
+    """Print the request that would be sent without making any Azure change."""
+
+    url = build_rule_url(
+        subscription_id,
+        resource_group,
+        workspace,
+        resource["name"],
+    )
+    body = build_request_body(resource)
+
+    print("DRY RUN - no changes will be made")
+    print(f"Method: PUT")
+    print(f"URL: {url}")
+    print("Body:")
+    print(json.dumps(body, indent=2))
+
+
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Deploy a generated Microsoft Sentinel analytics rule."
+        description=(
+            "Preview or deploy a generated Microsoft Sentinel analytics rule. "
+            "Dry-run is the default; pass --apply to make the Azure change."
+        )
     )
     parser.add_argument("rule", type=Path, help="Path to generated rule JSON")
     parser.add_argument("--subscription-id", required=True)
     parser.add_argument("--resource-group", required=True)
     parser.add_argument("--workspace", required=True)
+    parser.add_argument(
+        "--apply",
+        action="store_true",
+        help="Actually create or update the Sentinel rule",
+    )
     return parser.parse_args()
 
 
@@ -166,6 +201,16 @@ def main():
 
     try:
         resource = load_built_rule(args.rule)
+
+        if not args.apply:
+            print_dry_run(
+                resource,
+                args.subscription_id,
+                args.resource_group,
+                args.workspace,
+            )
+            return 0
+
         token = get_access_token()
         result = deploy_rule(
             resource,
