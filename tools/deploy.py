@@ -11,6 +11,7 @@ from pathlib import Path
 
 API_VERSION = "2025-09-01"
 MANAGEMENT_SCOPE = "https://management.azure.com/"
+DEFAULT_RULES_DIR = Path("build/sentinel/rules")
 
 
 def find_azure_cli() -> str:
@@ -60,6 +61,28 @@ def get_access_token() -> str:
         raise RuntimeError("Azure CLI returned an empty access token")
 
     return token
+
+
+def find_rule_files(path: Path) -> list[Path]:
+    """Return generated Sentinel rule JSON files from a file or directory."""
+
+    if path.is_file():
+        if path.suffix.lower() != ".json":
+            raise ValueError(f"{path} is not a JSON rule file")
+        return [path]
+
+    if not path.exists():
+        raise ValueError(f"{path} does not exist")
+
+    if not path.is_dir():
+        raise ValueError(f"{path} is not a file or directory")
+
+    rule_files = sorted(path.rglob("*.json"))
+
+    if not rule_files:
+        raise ValueError(f"No generated Sentinel rule JSON files found in {path}")
+
+    return rule_files
 
 
 def load_built_rule(path: Path) -> dict:
@@ -190,18 +213,27 @@ def print_dry_run(
 def parse_args():
     parser = argparse.ArgumentParser(
         description=(
-            "Preview or deploy a generated Microsoft Sentinel analytics rule. "
-            "Dry-run is the default; pass --apply to make the Azure change."
+            "Preview or deploy generated Microsoft Sentinel analytics rules. "
+            "Dry-run is the default; pass --apply to make Azure changes."
         )
     )
-    parser.add_argument("rule", type=Path, help="Path to generated rule JSON")
+    parser.add_argument(
+        "rules",
+        nargs="?",
+        type=Path,
+        default=DEFAULT_RULES_DIR,
+        help=(
+            "Generated rule JSON file or directory. "
+            "Defaults to build/sentinel/rules"
+        ),
+    )
     parser.add_argument("--subscription-id", required=True)
     parser.add_argument("--resource-group", required=True)
     parser.add_argument("--workspace", required=True)
     parser.add_argument(
         "--apply",
         action="store_true",
-        help="Actually create or update the Sentinel rule",
+        help="Actually create or update the Sentinel rules",
     )
     return parser.parse_args()
 
@@ -210,34 +242,58 @@ def main():
     args = parse_args()
 
     try:
-        resource = load_built_rule(args.rule)
+        rule_files = find_rule_files(args.rules)
+        resources = [(path, load_built_rule(path)) for path in rule_files]
 
         if not args.apply:
-            print_dry_run(
-                resource,
-                args.subscription_id,
-                args.resource_group,
-                args.workspace,
-            )
+            print(f"Found {len(resources)} generated Sentinel rule(s).")
+            for index, (path, resource) in enumerate(resources, start=1):
+                print(f"\n[{index}/{len(resources)}] {path}")
+                print_dry_run(
+                    resource,
+                    args.subscription_id,
+                    args.resource_group,
+                    args.workspace,
+                )
             return 0
 
         token = get_access_token()
-        result = deploy_rule(
-            resource,
-            args.subscription_id,
-            args.resource_group,
-            args.workspace,
-            token,
-        )
+        failures = 0
+
+        for index, (path, resource) in enumerate(resources, start=1):
+            display_name = resource.get("properties", {}).get(
+                "displayName",
+                resource["name"],
+            )
+            print(f"[{index}/{len(resources)}] Deploying {display_name} ...")
+
+            try:
+                result = deploy_rule(
+                    resource,
+                    args.subscription_id,
+                    args.resource_group,
+                    args.workspace,
+                    token,
+                )
+                deployed_name = result.get("name", resource["name"])
+                print(f"PASS  {path} -> {deployed_name}")
+            except (OSError, RuntimeError, json.JSONDecodeError) as error:
+                print(f"ERROR {path}: {error}", file=sys.stderr)
+                failures += 1
+
+        if failures:
+            print(
+                f"\nFailed to deploy {failures} of {len(resources)} rule(s).",
+                file=sys.stderr,
+            )
+            return 1
+
+        print(f"\nDeployed {len(resources)} Sentinel rule(s).")
+        return 0
+
     except (OSError, ValueError, RuntimeError, json.JSONDecodeError) as error:
         print(f"ERROR: {error}", file=sys.stderr)
         return 1
-
-    print(
-        "Deployed Sentinel rule: "
-        f"{result.get('name', resource['name'])}"
-    )
-    return 0
 
 
 if __name__ == "__main__":
