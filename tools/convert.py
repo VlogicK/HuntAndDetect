@@ -26,7 +26,7 @@ def load_yaml(path: Path) -> dict:
 def build_properties(rule: dict) -> dict:
     """Convert YAML fields into Sentinel Scheduled rule properties."""
 
-    return {
+    properties = {
         "displayName": rule["displayName"],
         "description": rule["description"],
         "severity": rule["severity"],
@@ -48,8 +48,13 @@ def build_properties(rule: dict) -> dict:
         "techniques": rule["techniques"],
         "incidentConfiguration": rule["incidentConfiguration"],
         "eventGroupingSettings": rule["eventGroupingSettings"],
-        "entityMappings": rule["entityMappings"],
     }
+
+    entity_mappings = rule.get("entityMappings")
+    if entity_mappings:
+        properties["entityMappings"] = entity_mappings
+
+    return properties
 
 
 def build_resource(rule: dict) -> dict:
